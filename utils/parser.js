@@ -7,13 +7,13 @@ import axios from "axios"
 import { add } from "date-fns"
 
 /**
- * Salva no historico de comandos
+ * Salva no historico de comandos usados
  * @param {String} commandName
  * @param {String} userName
  * @param {Date} time
  * @returns {void}
  */
-function saveHistory(commandName, userName, time) {
+function saveHistory(commandName, userName, time = new Date()) {
     const history = new commandHistory({
         commandName, userName, time
     })
@@ -68,10 +68,8 @@ export default async function parser(userMessage, tags) {
     if (cmd.history && cmd.history.length) {
         const lastTime = add(cmd.history[cmd.history.length - 1].time, { seconds: cmd.cooldown })
         if (now < lastTime) return
-        saveHistory(name, tags.username, now)
-    } else {
-        saveHistory(name, tags.username, now)
     }
+    saveHistory(name, tags.username, now)
 
     if (!cmd.roles.length || cmd.roles.some(role => tags.badges.hasOwnProperty(role))) {
         if (cmd.response && typeof cmd.response === "string") {

@@ -1,7 +1,7 @@
 /**
 forEach assíncrono
 @param {Array} array
-@param {Callback} callback
+@param {Function} callback
 @returns {Promise}
 */
 export default async function asyncForEach(array = [], callback) {
